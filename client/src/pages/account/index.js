@@ -3,40 +3,38 @@ import { Menu, LoggedIn } from "../../components";
 import { routes } from "../../config";
 import { connect } from "../../redux";
 
-class Main extends React.Component {
-  menu() {
+function Main(props) {
+  function menu() {
     return [
       [
         "Update Username",
         () => {
-          this.props.history.push(routes.UpdateUsername);
+          props.history.push(routes.UpdateUsername);
         }
       ],
       [
         "Update Password",
         () => {
-          this.props.history.push(routes.UpdatePassword);
+          props.history.push(routes.UpdatePassword);
         }
       ],
       [
         "Delete Account",
         () => {
-          this.props.history.push(routes.Unregister);
+          props.history.push(routes.Unregister);
         }
       ]
     ];
   }
 
-  render() {
-    return (
-      <div>
-        <LoggedIn />
-        <h1>Account</h1>
-        <hr />
-        <Menu data={this.menu()} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <LoggedIn />
+      <h1>Account</h1>
+      <hr />
+      <Menu data={menu()} />
+    </div>
+  );
 }
 
 export default connect(Main);

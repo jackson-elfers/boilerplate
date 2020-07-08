@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import check from "check-types";
 import { routes, api } from "../../config";
@@ -6,21 +6,16 @@ import errors from "../../errors";
 import { connect } from "../../redux";
 import ReCaptcha from "react-google-recaptcha";
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      recaptcha_token: null
-    };
-  }
+function Main(props) {
+  const [recaptcha, setRecaptcha] = useState(null);
 
-  async register(e) {
+  async function register(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
     const data = {
       username: form.username.value,
       password: form.password.value,
-      recaptcha_token: this.state.recaptcha_token
+      recaptcha_token: recaptcha
     };
     try {
       errors.user.register(data);
@@ -31,7 +26,7 @@ class Main extends React.Component {
         throw new Error(`${data.username} already exists as a username.`);
       }
       check.assert(data.password === form.confirm.value, "Please make sure passwords match.");
-      check.assert(this.state.recaptcha_token !== null, "Please check, 'I am not a robot'.");
+      check.assert(recaptcha !== null, "Please check, 'I am not a robot'.");
       // register
       const responseOne = await axios.post(`${process.env.REACT_APP_API}${api.user.register}`, data);
       if (responseOne.data.error) {
@@ -42,44 +37,42 @@ class Main extends React.Component {
       if (responseTwo.data.error) {
         throw new Error(responseTwo.data.error.detail);
       }
-      await this.props.actions.user.set();
-      this.props.history.push(routes.Account);
+      await props.actions.user.set();
+      props.history.push(routes.Account);
     } catch (e) {
-      this.props.actions.notice.message(e.message);
+      props.actions.notice.message(e.message);
     }
   }
 
-  reCaptcha(token) {
-    this.setState({ recaptcha_token: token });
+  function reCaptcha(token) {
+    setRecaptcha(token);
   }
 
-  async messages() {
+  function messages() {
     throw new Error(`We're excited you can join our community! After filling out the fields below 
       we can help you get started! 👍`);
   }
 
-  async componentDidMount() {
+  useEffect(() => {
     try {
-      await this.messages();
+      messages();
     } catch (e) {
-      this.props.actions.notice.message(e.message);
+      props.actions.notice.message(e.message);
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <h1>Register</h1>
-        <hr />
-        <form id="formOne" onSubmit={this.register.bind(this)}>
-          <input type="text" name="username" placeholder="username" />
-          <input type="password" name="password" placeholder="password" />
-          <input type="password" name="confirm" placeholder="password confirm" />
-          <input type="submit" value="register" />
-        </form>
-        <ReCaptcha sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={this.reCaptcha.bind(this)} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>Register</h1>
+      <hr />
+      <form id="formOne" onSubmit={register}>
+        <input type="text" name="username" placeholder="username" />
+        <input type="password" name="password" placeholder="password" />
+        <input type="password" name="confirm" placeholder="password confirm" />
+        <input type="submit" value="register" />
+      </form>
+      <ReCaptcha sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={reCaptcha} />
+    </div>
+  );
 }
 export default connect(Main);

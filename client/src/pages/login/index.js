@@ -4,8 +4,8 @@ import check from "check-types";
 import { routes, api } from "../../config";
 import { connect } from "../../redux";
 
-class Main extends React.Component {
-  async login(e) {
+function Main(props) {
+  async function login(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
     const data = { username: form.username.value, password: form.password.value };
@@ -14,25 +14,23 @@ class Main extends React.Component {
       if (response.data.error) {
         throw new Error(response.data.error.detail);
       }
-      await this.props.actions.user.set();
-      this.props.history.push(routes.Account);
+      await props.actions.user.set();
+      props.history.push(routes.Account);
     } catch (e) {
-      this.props.actions.notice.message(e.message);
+      props.actions.notice.message(e.message);
     }
   }
 
-  render() {
-    return (
-      <div>
-        <h1>Login</h1>
-        <hr />
-        <form id="formOne" onSubmit={this.login.bind(this)}>
-          <input type="text" name="username" placeholder="username" />
-          <input type="password" name="password" placeholder="password" />
-          <input type="submit" value="login" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>Login</h1>
+      <hr />
+      <form id="formOne" onSubmit={login}>
+        <input type="text" name="username" placeholder="username" />
+        <input type="password" name="password" placeholder="password" />
+        <input type="submit" value="login" />
+      </form>
+    </div>
+  );
 }
 export default connect(Main);

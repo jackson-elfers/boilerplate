@@ -6,8 +6,8 @@ import { routes, api } from "../../config";
 import errors from "../../errors";
 import { connect } from "../../redux";
 
-class Main extends React.Component {
-  async updatePassword(e) {
+function Main(props) {
+  async function updatePassword(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
     const data = { password: form.password.value };
@@ -20,26 +20,24 @@ class Main extends React.Component {
       }
       form.password.value = "";
       form.confirm.value = "";
-      this.props.actions.notice.message("password updated successfully!");
+      props.actions.notice.message("password updated successfully!");
     } catch (e) {
-      this.props.actions.notice.message(e.message);
+      props.actions.notice.message(e.message);
     }
   }
 
-  render() {
-    return (
-      <div>
-        <LoggedIn />
-        <Back to={routes.Account} />
-        <h1>Update Password</h1>
-        <hr />
-        <form id="formOne" onSubmit={this.updatePassword.bind(this)}>
-          <input type="password" name="password" placeholder="password" />
-          <input type="password" name="confirm" placeholder="password confirm" />
-          <input type="submit" value="update" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <LoggedIn />
+      <Back to={routes.Account} />
+      <h1>Update Password</h1>
+      <hr />
+      <form id="formOne" onSubmit={updatePassword}>
+        <input type="password" name="password" placeholder="password" />
+        <input type="password" name="confirm" placeholder="password confirm" />
+        <input type="submit" value="update" />
+      </form>
+    </div>
+  );
 }
 export default connect(Main);

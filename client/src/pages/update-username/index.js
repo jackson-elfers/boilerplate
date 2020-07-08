@@ -6,8 +6,8 @@ import { routes, api } from "../../config";
 import errors from "../../errors";
 import { connect } from "../../redux";
 
-class Main extends React.Component {
-  async updateUsername(e) {
+function Main(props) {
+  async function updateUsername(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
     const data = { username: form.username.value };
@@ -24,25 +24,23 @@ class Main extends React.Component {
         throw new Error(response.data.error.detail);
       }
       form.username.value = "";
-      this.props.actions.notice.message("username updated successfully!");
+      props.actions.notice.message("username updated successfully!");
     } catch (e) {
-      this.props.actions.notice.message(e.message);
+      props.actions.notice.message(e.message);
     }
   }
 
-  render() {
-    return (
-      <div>
-        <LoggedIn />
-        <Back to={routes.Account} />
-        <h1>Update Username</h1>
-        <hr />
-        <form id="formOne" onSubmit={this.updateUsername.bind(this)}>
-          <input type="text" name="username" placeholder="username" />
-          <input type="submit" value="update" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <LoggedIn />
+      <Back to={routes.Account} />
+      <h1>Update Username</h1>
+      <hr />
+      <form id="formOne" onSubmit={updateUsername}>
+        <input type="text" name="username" placeholder="username" />
+        <input type="submit" value="update" />
+      </form>
+    </div>
+  );
 }
 export default connect(Main);
