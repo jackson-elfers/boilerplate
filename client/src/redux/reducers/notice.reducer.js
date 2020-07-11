@@ -1,12 +1,13 @@
 import { types } from "../actions";
-import initialState from "./initial.state";
 
-export default function(state = initialState.notice, action) {
+const initialState = { message: null };
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case types.NOTICE:
-      return action.data;
+      return { ...state, message: action.data };
     case types.CLEAR_NOTICE:
-      return action.data;
+      return { ...state, message: action.data };
     default:
       return state;
   }

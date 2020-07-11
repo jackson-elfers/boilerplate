@@ -1,12 +1,13 @@
 import { types } from "../actions";
-import initialState from "./initial.state";
 
-export default function(state = initialState.user, action) {
+const initialState = { info: null };
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case types.SET_USER:
-      return action.data;
+      return { ...state, info: action.data };
     case types.CLEAR_USER:
-      return action.data;
+      return { ...state, info: action.data };
     default:
       return state;
   }

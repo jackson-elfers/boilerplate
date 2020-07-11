@@ -45,7 +45,7 @@ class Main extends React.Component {
           <h1>Boilerplate</h1>
         </Link>
         <div style={{ height: "50px" }}>
-          <Nav user={this.props.globals.user} />
+          <Nav user={this.props.globals.user.info} />
         </div>
       </div>
     );

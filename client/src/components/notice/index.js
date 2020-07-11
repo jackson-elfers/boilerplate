@@ -20,9 +20,9 @@ class Main extends React.Component {
   render() {
     return (
       <div>
-        <div style={this.props.globals.notice === null ? { display: "none" } : { display: "block" }}>
+        <div style={this.props.globals.notice.message === null ? { display: "none" } : { display: "block" }}>
           <div className="box">
-            <p>{this.props.globals.notice}</p>
+            <p>{this.props.globals.notice.message}</p>
             <button onClick={this.clear.bind(this)}>Got It!</button>
           </div>
         </div>
