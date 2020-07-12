@@ -18,12 +18,12 @@ exit
 2. clone the repo
 
 ```
-git clone https://github.com/jackson-elfers/bontaki.git
-cd bontaki
+git clone https://github.com/jackson-elfers/boilerplate.git
+cd boilerplate
 npm install && cd client && npm install && cd ..
 ```
 
-3. create dev.env file on path: bontaki/env/dev.env
+3. create dev.env file on path: boilerplate/env/dev.env
 
 ```
 PORT=5000
