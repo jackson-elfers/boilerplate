@@ -21,17 +21,17 @@ module.exports = class {
     return await this.method.services.user.readSingleId(data);
   }
 
-  async usernameExists(data) {
+  async emailExists(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    await this.method.errors.user.usernameExists(data);
-    return await this.method.services.user.usernameExists(data);
+    await this.method.errors.user.emailExists(data);
+    return await this.method.services.user.emailExists(data);
   }
 
-  async updateUsername(data) {
+  async updateEmail(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    await this.method.errors.user.updateUsername(data);
-    this.method.errors.user.updateUsername(data);
-    await this.method.services.user.updateUsername(data);
+    await this.method.errors.user.updateEmail(data);
+    this.method.errors.user.updateEmail(data);
+    await this.method.services.user.updateEmail(data);
   }
 
   async updatePassword(data) {
