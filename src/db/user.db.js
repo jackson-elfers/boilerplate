@@ -18,25 +18,25 @@ current_timestamp(),
 );
 `;
     const _id = this.method.uuid();
-    const params = [_id, data.username, data.password];
+    const params = [_id, data.email, data.password];
     return await this.method.utils.db.query(this.method.sqlstring.format(query, params), { _id: _id });
   }
 
-  async readSingleUsername(data) {
+  async readSingleEmail(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    await this.method.errors.user.readSingleUsername(data);
+    await this.method.errors.user.readSingleEmail(data);
     const query = `
 select
 bin_to_uuid(_id) _id,
 created_at,
 updated_at,
 login_at,
-username,
+email,
 password
 from user
-where username = ?;
+where email = ?;
 `;
-    const params = [data.username];
+    const params = [data.email];
     return await this.method.utils.db.query(this.method.sqlstring.format(query, params));
   }
 
@@ -45,7 +45,7 @@ where username = ?;
     await this.method.errors.user.readSingleId(data);
     const query = `
 select
-username
+email
 from user
 where _id = uuid_to_bin(?);
 `;
@@ -53,29 +53,29 @@ where _id = uuid_to_bin(?);
     return await this.method.utils.db.query(this.method.sqlstring.format(query, params));
   }
 
-  async usernameExists(data) {
+  async emailExists(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    await this.method.errors.user.usernameExists(data);
+    await this.method.errors.user.emailExists(data);
     const query = `
 select
-username
+email
 from user
-where username = ?;
+where email = ?;
 `;
-    const params = [data.username];
+    const params = [data.email];
     return await this.method.utils.db.query(this.method.sqlstring.format(query, params));
   }
 
-  async updateUsername(data) {
+  async updateEmail(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    await this.method.errors.user.updateUsername(data);
+    await this.method.errors.user.updateEmail(data);
     const query = `
 update user set
 updated_at = current_timestamp(),
-username = ?
+email = ?
 where _id = uuid_to_bin(?);
 `;
-    const params = [data.username, data._id];
+    const params = [data.email, data._id];
     return await this.method.utils.db.query(this.method.sqlstring.format(query, params));
   }
 
